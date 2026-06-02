@@ -1,15 +1,15 @@
-// ==================== ipgeolocation.io 优化版 Geo Checker ====================
+// ==================== ip.sb Geo Location Checker ====================
 if ($response.statusCode !== 200) {
     $done(null);
 }
 
 let obj = JSON.parse($response.body);
 
-const emoji = obj.location?.country_emoji || getFlagEmoji(obj.location?.country_code2);
-let country = obj.location?.country_name || "未知国家";
-let city = obj.location?.city || "未知城市";
-let region = obj.location?.state_prov || "";
-const isp = obj.asn?.organization || obj.network?.connection_type || "未知运营商";
+const emoji = getFlagEmoji(obj.country_code);
+let country = obj.country || "未知国家";
+let city = obj.city || "未知城市";
+let region = obj.region || "";
+const isp = obj.organization || "未知运营商";
 const ip = obj.ip || "未知IP";
 
 // ==================== 地名简体修正映射 ====================
@@ -26,20 +26,23 @@ const nameMap = {
     "巴黎": "巴黎",
     "東京": "东京",
     "新加坡": "新加坡",
+    "墨爾本": "墨尔本",
+    "悉尼": "悉尼",
+    "溫哥華": "温哥华",
+    "多倫多": "多伦多"
 };
 
 city = nameMap[city] || city;
 region = nameMap[region] || region;
 country = nameMap[country] || country;
 
-// 国旗备用函数
 function getFlagEmoji(countryCode) {
     if (!countryCode) return "🌐";
     const codePoints = countryCode.toUpperCase().split('').map(char => 127397 + char.charCodeAt(0));
     return String.fromCodePoint(...codePoints);
 }
 
-// 输出
+// 输出格式
 const title = `${emoji} ${country} ${city}`;
 
 const subtitle = `${region ? region + " · " : ""}${isp}`;
@@ -49,7 +52,7 @@ const description = `IP地址：${ip}\n` +
                    `城市：${city}\n` +
                    `省份/州：${region}\n` +
                    `运营商：${isp}\n` +
-                   `数据源：ipgeolocation.io`;
+                   `数据源：ip.sb`;
 
 $done({
     title: title,
