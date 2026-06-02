@@ -1,6 +1,3 @@
-// Quantumult X - geo_location_checker
-// ipwho.is 中文简洁版
-
 function getFlagEmoji(countryCode) {
   if (!countryCode || countryCode.length !== 2) return "🏳️";
   return countryCode
