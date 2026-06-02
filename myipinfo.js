@@ -6,7 +6,7 @@ if ($response['statusCode'] != 0xc8) {
 function getFlag(code) {
     const s = code['toUpperCase']()['split']('')['map'](t => 0x1f1a5 + t['charCodeAt']());
     const flag = String['fromCodePoint'](...s);
-    return flag == '🇹🇼' ? '🇨🇳' : flag;
+    return flag == '🇹🇼' ? '🇼🇸' : flag;
 }
 
 // 2. 拼接省份和城市
